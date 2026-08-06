@@ -1,12 +1,16 @@
+package com.insureai.insureai_backend.model;
+
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "users")
-public class User1 {
+@Entity
+@Table(name = "users")
+public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
     private String email;
     private String password;
