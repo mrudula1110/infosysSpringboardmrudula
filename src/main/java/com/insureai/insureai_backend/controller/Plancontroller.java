@@ -1,7 +1,7 @@
 package com.insureai.insureai_backend.controller;
 
 import com.insureai.insureai_backend.model.Plan;
-import com.insureai.insureai_backend.service.PlanService;
+import com.insureai.insureai_backend.service.Planservice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
