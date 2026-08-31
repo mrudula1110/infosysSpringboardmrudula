@@ -6,27 +6,37 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/admin/users")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class Usercontroller {
+public class Usercontroller { // ← NO @RequestMapping at class level
 
     private final Userservice userService;
 
-    @GetMapping
+    @GetMapping("/api/admin/users")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/admin/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/admin/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    // PUBLIC - no auth needed
+    @GetMapping("/api/public/agents")
+    public ResponseEntity<List<User>> getPublicAgents() {
+        List<User> agents = userService.getAllUsers()
+                .stream()
+                .filter(u -> u.getRole().equals("AGENT"))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(agents);
     }
 }

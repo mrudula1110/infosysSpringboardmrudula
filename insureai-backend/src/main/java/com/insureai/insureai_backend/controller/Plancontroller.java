@@ -40,4 +40,10 @@ public class Plancontroller {
     public ResponseEntity<String> deletePlan(@PathVariable Long id) {
         return ResponseEntity.ok(planservice.deletePlan(id));
     }
+
+    // Public endpoint - no auth needed
+    @GetMapping("/public/plans")
+    public ResponseEntity<List<Plan>> getPublicPlans() {
+        return ResponseEntity.ok(planservice.getAllPlans());
+    }
 }

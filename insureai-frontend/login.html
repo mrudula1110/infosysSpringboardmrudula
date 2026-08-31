@@ -91,14 +91,8 @@
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('name', data.name);
 
-                    // Redirect based on role
-                    if (data.role === 'ADMIN') {
-                        window.location.href = 'admin/dashboard.html';
-                    } else if (data.role === 'AGENT') {
-                        window.location.href = 'agent/dashboard.html';
-                    } else {
-                        window.location.href = 'customer/dashboard.html';
-                    }
+                    // Always redirect to index first
+                    window.location.href = 'index.html';
                 } else {
                     errorMsg.classList.remove('hidden');
                     errorMsg.textContent = 'Invalid email or password!';

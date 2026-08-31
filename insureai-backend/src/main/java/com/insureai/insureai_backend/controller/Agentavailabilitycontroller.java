@@ -13,55 +13,63 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Agentavailabilitycontroller {
 
-    private final AgentAvailabilityservice availabilityService;
+        private final AgentAvailabilityservice availabilityService;
 
-    // Agent sets their availability
-    @PostMapping("/api/agent/availability")
-    public ResponseEntity<Agentavailability> setAvailability(
-            @RequestBody Availabilityrequest request) {
-        return ResponseEntity.ok(
-                availabilityService.setAvailability(request));
-    }
+        // Agent sets their availability
+        @PostMapping("/api/agent/availability")
+        public ResponseEntity<Agentavailability> setAvailability(
+                        @RequestBody Availabilityrequest request) {
+                return ResponseEntity.ok(
+                                availabilityService.setAvailability(request));
+        }
 
-    // Get all slots for an agent
-    @GetMapping("/api/agent/availability/{agentId}")
-    public ResponseEntity<List<Agentavailability>> getAgentAvailability(
-            @PathVariable Long agentId) {
-        return ResponseEntity.ok(
-                availabilityService.getAgentAvailability(agentId));
-    }
+        // Get all slots for an agent
+        @GetMapping("/api/agent/availability/{agentId}")
+        public ResponseEntity<List<Agentavailability>> getAgentAvailability(
+                        @PathVariable Long agentId) {
+                return ResponseEntity.ok(
+                                availabilityService.getAgentAvailability(agentId));
+        }
 
-    // Get slots by date
-    @GetMapping("/api/agent/availability/{agentId}/{date}")
-    public ResponseEntity<List<Agentavailability>> getByDate(
-            @PathVariable Long agentId,
-            @PathVariable String date) {
-        return ResponseEntity.ok(
-                availabilityService.getAvailabilityByDate(agentId, date));
-    }
+        // Get slots by date
+        @GetMapping("/api/agent/availability/{agentId}/{date}")
+        public ResponseEntity<List<Agentavailability>> getByDate(
+                        @PathVariable Long agentId,
+                        @PathVariable String date) {
+                return ResponseEntity.ok(
+                                availabilityService.getAvailabilityByDate(agentId, date));
+        }
 
-    // Customer views available slots of an agent
-    @GetMapping("/api/customer/availability/{agentId}")
-    public ResponseEntity<List<Agentavailability>> getAvailableSlots(
-            @PathVariable Long agentId) {
-        return ResponseEntity.ok(
-                availabilityService.getAvailableSlots(agentId));
-    }
+        // Customer views available slots of an agent
+        @GetMapping("/api/customer/availability/{agentId}")
+        public ResponseEntity<List<Agentavailability>> getAvailableSlots(
+                        @PathVariable Long agentId) {
+                return ResponseEntity.ok(
+                                availabilityService.getAvailableSlots(agentId));
+        }
 
-    // Agent updates a slot
-    @PutMapping("/api/agent/availability/{id}")
-    public ResponseEntity<Agentavailability> updateAvailability(
-            @PathVariable Long id,
-            @RequestParam boolean isAvailable) {
-        return ResponseEntity.ok(
-                availabilityService.updateAvailability(id, isAvailable));
-    }
+        // Agent updates a slot
+        @PutMapping("/api/agent/availability/{id}")
+        public ResponseEntity<Agentavailability> updateAvailability(
+                        @PathVariable Long id,
+                        @RequestParam boolean isAvailable) {
+                return ResponseEntity.ok(
+                                availabilityService.updateAvailability(id, isAvailable));
+        }
 
-    // Agent deletes a slot
-    @DeleteMapping("/api/agent/availability/{id}")
-    public ResponseEntity<String> deleteAvailability(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(
-                availabilityService.deleteAvailability(id));
-    }
+        // Agent deletes a slot
+        @DeleteMapping("/api/agent/availability/{id}")
+        public ResponseEntity<String> deleteAvailability(
+                        @PathVariable Long id) {
+                return ResponseEntity.ok(
+                                availabilityService.deleteAvailability(id));
+        }
+
+        // Public - customer can see agent slots
+        @GetMapping("/public/availability/{agentId}")
+        public ResponseEntity<List<Agentavailability>> getPublicSlots(
+                        @PathVariable Long agentId) {
+                return ResponseEntity.ok(
+                                availabilityService.getAvailableSlots(agentId));
+        }
 }

@@ -66,18 +66,16 @@
 </head>
 
 <body class="bg-gray-950 text-white font-sans">
-
-    <!-- ===== NAVBAR ===== -->
     <nav class="fixed top-0 w-full z-50 bg-gray-950/80 navbar-blur
-                border-b border-purple-900/20">
+            border-b border-purple-900/20">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between
-                    items-center">
+                items-center">
 
-            <!-- Logo -->
+            <!-- Left — Logo -->
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-gradient-to-br from-purple-600
-                            to-pink-600 rounded-xl flex items-center
-                            justify-center glow">
+                        to-pink-600 rounded-xl flex items-center
+                        justify-center glow">
                     <span class="text-white font-bold text-sm">AI</span>
                 </div>
                 <span class="text-xl font-bold">
@@ -85,77 +83,128 @@
                 </span>
             </div>
 
-            <!-- Nav Links -->
+            <!-- Middle — Nav Links -->
             <div class="hidden md:flex items-center gap-1">
-
                 <a href="#home" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     Home
                 </a>
-
                 <a href="#features" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     Features
                 </a>
-
                 <a href="#about" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     About Us
+                </a>
+                <a href="#plans" class="px-4 py-2 text-gray-300 hover:text-white
+              hover:bg-gray-800/50 rounded-lg transition text-sm">
+                    Plans
                 </a>
 
                 <!-- Register Dropdown -->
                 <div class="relative dropdown">
                     <button class="px-4 py-2 text-gray-300 hover:text-white
-                                   hover:bg-gray-800/50 rounded-lg transition
-                                   text-sm flex items-center gap-1">
+                               hover:bg-gray-800/50 rounded-lg transition
+                               text-sm flex items-center gap-1">
                         Register
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
                     <div class="dropdown-menu hidden absolute top-full
-                                left-0 mt-2 w-48 bg-gray-900 border
-                                border-gray-800 rounded-xl shadow-xl
-                                overflow-hidden z-50">
+                            left-0 mt-2 w-48 bg-gray-900 border
+                            border-gray-800 rounded-xl shadow-xl
+                            overflow-hidden z-50">
                         <a href="register.html?role=CUSTOMER" class="block px-4 py-3 text-sm text-gray-300
-                                  hover:bg-purple-900/30 hover:text-white
-                                  transition">
+                              hover:bg-purple-900/30 hover:text-white
+                              transition">
                             👤 Customer Register
                         </a>
                         <a href="register.html?role=AGENT" class="block px-4 py-3 text-sm text-gray-300
-                                  hover:bg-purple-900/30 hover:text-white
-                                  transition border-t border-gray-800">
+                              hover:bg-purple-900/30 hover:text-white
+                              transition border-t border-gray-800">
                             🧑‍💼 Agent Register
                         </a>
                     </div>
                 </div>
 
                 <a href="login.html?role=AGENT" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     Manager
                 </a>
 
                 <a href="login.html?role=ADMIN" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     Admin
                 </a>
 
                 <a href="#contact" class="px-4 py-2 text-gray-300 hover:text-white
-                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                      hover:bg-gray-800/50 rounded-lg transition text-sm">
                     Contact
                 </a>
-
             </div>
 
-            <!-- CTA Button -->
-            <a href="register.html" class="px-5 py-2 bg-purple-600 hover:bg-purple-700
-                      rounded-xl text-sm font-medium transition glow">
-                Get Started
-            </a>
+            <!-- Right — Auth Buttons -->
+            <div class="relative flex items-center">
 
+                <!-- NOT logged in -->
+                <div id="navNotLoggedIn" class="flex items-center gap-3">
+                    <a href="login.html" class="px-4 py-2 text-gray-300 hover:text-white
+                          hover:bg-gray-800/50 rounded-lg transition text-sm">
+                        Sign In
+                    </a>
+                    <a href="login.html" class="px-5 py-2 bg-purple-600 hover:bg-purple-700
+                          rounded-xl text-sm font-medium transition glow">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Logged in — Profile -->
+                <div id="navLoggedIn" class="hidden items-center gap-3">
+                    <button onclick="toggleDropdown()" class="flex items-center gap-2 bg-gray-800
+                               hover:bg-gray-700 border border-gray-700
+                               rounded-xl px-4 py-2 transition">
+                        <div class="w-7 h-7 bg-purple-600 rounded-full
+                                flex items-center justify-center">
+                            <span id="userInitial" class="text-white text-xs font-bold">
+                                U
+                            </span>
+                        </div>
+                        <span id="navUserName" class="text-sm text-white">Welcome</span>
+                        <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Profile Dropdown -->
+                    <div id="profileDropdown" class="hidden absolute top-12 right-0 w-48
+                            bg-gray-900 border border-gray-800
+                            rounded-xl shadow-xl overflow-hidden z-50">
+                        <div class="px-4 py-3 border-b border-gray-800">
+                            <div id="dropdownName" class="text-white font-medium text-sm">
+                            </div>
+                            <div id="dropdownRole" class="text-purple-400 text-xs mt-1">
+                            </div>
+                        </div>
+                        <button onclick="goToDashboard()" class="w-full text-left px-4 py-3 text-sm
+                                   text-gray-300 hover:bg-purple-900/30
+                                   hover:text-white transition flex
+                                   items-center gap-2">
+                            📊 My Dashboard
+                        </button>
+                        <button onclick="logout()" class="w-full text-left px-4 py-3 text-sm
+                                   text-red-400 hover:bg-red-900/20
+                                   transition border-t border-gray-800
+                                   flex items-center gap-2">
+                            🚪 Logout
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </nav>
-
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="min-h-screen flex items-center justify-center
                     px-6 pt-24 hero-gradient">
@@ -408,6 +457,86 @@
 
                 </div>
             </div>
+        </div>
+    </section>
+    <!-- ===== PLANS SECTION ===== -->
+    <section id="plans" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+
+            <div class="text-center mb-16">
+                <span class="text-purple-400 text-sm uppercase
+                         tracking-widest">Our Plans</span>
+                <h2 class="text-4xl font-bold mt-3 mb-4">
+                    Insurance Plans For Everyone
+                </h2>
+                <p class="text-gray-400 max-w-xl mx-auto">
+                    Choose from our wide range of insurance plans
+                    designed to protect what matters most to you
+                </p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-3 justify-center mb-10">
+                <button onclick="filterPlans('ALL')" id="filter-ALL" class="px-4 py-2 bg-purple-600 text-white
+                           rounded-xl text-sm font-medium transition">
+                    All Plans
+                </button>
+                <button onclick="filterPlans('Health')" id="filter-Health" class="px-4 py-2 bg-gray-800 text-gray-400
+                           hover:bg-gray-700 rounded-xl text-sm
+                           font-medium transition">
+                    Health
+                </button>
+                <button onclick="filterPlans('Life')" id="filter-Life" class="px-4 py-2 bg-gray-800 text-gray-400
+                           hover:bg-gray-700 rounded-xl text-sm
+                           font-medium transition">
+                    Life
+                </button>
+                <button onclick="filterPlans('Vehicle')" id="filter-Vehicle" class="px-4 py-2 bg-gray-800 text-gray-400
+                           hover:bg-gray-700 rounded-xl text-sm
+                           font-medium transition">
+                    Vehicle
+                </button>
+                <button onclick="filterPlans('Property')" id="filter-Property" class="px-4 py-2 bg-gray-800 text-gray-400
+                           hover:bg-gray-700 rounded-xl text-sm
+                           font-medium transition">
+                    Property
+                </button>
+                <button onclick="filterPlans('Travel')" id="filter-Travel" class="px-4 py-2 bg-gray-800 text-gray-400
+                           hover:bg-gray-700 rounded-xl text-sm
+                           font-medium transition">
+                    Travel
+                </button>
+            </div>
+
+            <!-- Plans Grid -->
+            <div id="plansGrid" class="grid md:grid-cols-3 gap-6">
+                <!-- Loading state -->
+                <div class="md:col-span-3 text-center py-12">
+                    <div class="w-8 h-8 border-2 border-purple-600
+                            border-t-transparent rounded-full
+                            animate-spin mx-auto mb-4"></div>
+                    <p class="text-gray-500">Loading plans...</p>
+                </div>
+            </div>
+
+            <!-- No plans state -->
+            <div id="noPlans" class="hidden text-center py-12">
+                <p class="text-gray-500">
+                    No plans found for this category
+                </p>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-12">
+                <p class="text-gray-400 mb-4">
+                    Interested in a plan? Register to get started!
+                </p>
+                <a href="register.html" class="px-8 py-3 bg-purple-600 hover:bg-purple-700
+                      rounded-xl font-medium transition inline-block">
+                    Register Now
+                </a>
+            </div>
+
         </div>
     </section>
 
@@ -985,6 +1114,239 @@
                 }
             });
         });
+
+
+        // Check if user is logged in
+        window.onload = function () {
+            const token = localStorage.getItem('token');
+            const name = localStorage.getItem('name');
+            const role = localStorage.getItem('role');
+
+            if (token && name) {
+                // Show logged in nav
+                document.getElementById('navNotLoggedIn')
+                    .classList.add('hidden');
+                document.getElementById('navLoggedIn')
+                    .classList.remove('hidden');
+                document.getElementById('navLoggedIn')
+                    .classList.add('flex');
+
+                // Set name and initial
+                document.getElementById('navUserName')
+                    .textContent = 'Welcome, ' + name;
+                document.getElementById('userInitial')
+                    .textContent = name.charAt(0).toUpperCase();
+                document.getElementById('dropdownName')
+                    .textContent = name;
+                document.getElementById('dropdownRole')
+                    .textContent = role;
+            }
+        }
+
+        // Toggle profile dropdown
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Go to dashboard based on role
+        function goToDashboard() {
+            const role = localStorage.getItem('role');
+            if (role === 'ADMIN') {
+                window.location.href = 'admin/dashboard.html';
+            } else if (role === 'AGENT') {
+                window.location.href = 'agent/dashboard.html';
+            } else {
+                window.location.href = 'customer/dashboard.html';
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.clear();
+            window.location.reload();
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('profileDropdown');
+            const navLoggedIn = document.getElementById('navLoggedIn');
+            if (dropdown && navLoggedIn &&
+                !navLoggedIn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Contact form
+        function sendMessage() {
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (!name || !email || !message) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            document.getElementById('contactSuccess')
+                .classList.remove('hidden');
+
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMessage').value = '';
+
+            setTimeout(() => {
+                document.getElementById('contactSuccess')
+                    .classList.add('hidden');
+            }, 3000);
+        }
+        // Plan icons based on type
+        const planIcons = {
+            'Health': '🏥',
+            'Life': '💛',
+            'Vehicle': '🚗',
+            'Property': '🏠',
+            'Travel': '✈️',
+            'default': '📋'
+        };
+
+        // Plan colors based on type
+        const planColors = {
+            'Health': 'text-green-400 bg-green-900/30',
+            'Life': 'text-yellow-400 bg-yellow-900/30',
+            'Vehicle': 'text-blue-400 bg-blue-900/30',
+            'Property': 'text-orange-400 bg-orange-900/30',
+            'Travel': 'text-pink-400 bg-pink-900/30',
+            'default': 'text-purple-400 bg-purple-900/30'
+        };
+
+        let allPlans = [];
+
+        // Load plans from public API
+        async function loadPublicPlans() {
+            try {
+                const res = await fetch(
+                    'http://localhost:8081/api/public/plans'
+                );
+
+                if (!res.ok) throw new Error('Failed to load');
+
+                allPlans = await res.json();
+                renderPlans(allPlans);
+
+            } catch (err) {
+                document.getElementById('plansGrid').innerHTML = `
+            <div class="md:col-span-3 text-center py-12">
+                <p class="text-gray-500">
+                    Unable to load plans right now.
+                    Please try again later.
+                </p>
+            </div>
+        `;
+            }
+        }
+
+        // Render plans
+        function renderPlans(plans) {
+            const grid = document.getElementById('plansGrid');
+            const noPlans = document.getElementById('noPlans');
+
+            if (plans.length === 0) {
+                grid.innerHTML = '';
+                noPlans.classList.remove('hidden');
+                return;
+            }
+
+            noPlans.classList.add('hidden');
+
+            grid.innerHTML = plans.map(plan => {
+                const icon = planIcons[plan.planType] || planIcons['default'];
+                const color = planColors[plan.planType] || planColors['default'];
+
+                return `
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl
+                    p-6 hover:border-purple-700/50 transition group
+                    flex flex-col">
+
+            <!-- Header -->
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-gray-800 rounded-xl
+                            flex items-center justify-center
+                            group-hover:bg-gray-700 transition text-2xl">
+                    ${icon}
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs
+                             font-medium ${color}">
+                    ${plan.planType}
+                </span>
+            </div>
+
+            <!-- Content -->
+            <h3 class="text-lg font-semibold mb-2">
+                ${plan.planName}
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1">
+                ${plan.planDescription}
+            </p>
+
+            <!-- Footer -->
+            <div class="mt-6 pt-4 border-t border-gray-800
+                        flex justify-between items-center">
+                <span class="text-gray-500 text-xs">
+                    InsureAI Certified
+                </span>
+                <button onclick="handlePlanClick()"
+                        class="px-4 py-2 bg-purple-600
+                               hover:bg-purple-700 rounded-lg
+                               text-sm font-medium transition">
+                    Get Plan
+                </button>
+            </div>
+        </div>
+        `;
+            }).join('');
+        }
+
+        // Filter plans by type
+        function filterPlans(type) {
+            // Update filter buttons
+            const types = ['ALL', 'Health', 'Life',
+                'Vehicle', 'Property', 'Travel'];
+
+            types.forEach(t => {
+                const btn = document.getElementById(`filter-${t}`);
+                if (btn) {
+                    btn.className = `px-4 py-2 rounded-xl text-sm
+                            font-medium transition ${t === type
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                        }`;
+                }
+            });
+
+            // Filter plans
+            if (type === 'ALL') {
+                renderPlans(allPlans);
+            } else {
+                const filtered = allPlans.filter(p => p.planType === type);
+                renderPlans(filtered);
+            }
+        }
+
+        // Handle Get Plan button click
+        function handlePlanClick() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                // Already logged in - go to dashboard
+                goToDashboard();
+            } else {
+                // Not logged in - go to register
+                window.location.href = 'register.html';
+            }
+        }
+
+        // Load plans when page loads
+        loadPublicPlans();
     </script>
 
 </body>

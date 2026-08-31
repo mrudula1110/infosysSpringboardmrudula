@@ -97,73 +97,186 @@
 
         <!-- Book Appointment Tab -->
         <div id="tab-content-book" class="hidden">
-            <div class="max-w-lg">
-                <h2 class="text-xl font-semibold mb-6">
-                    Book Appointment
-                </h2>
+            <h2 class="text-xl font-semibold mb-6">
+                Book Appointment
+            </h2>
 
-                <div id="bookSuccess" class="hidden bg-green-900/30 border border-green-700/50 
-                            text-green-400 rounded-lg px-4 py-3 mb-6 text-sm">
+            <!-- Step indicator -->
+            <div class="flex items-center gap-3 mb-8">
+                <div id="step1indicator" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-purple-600 rounded-full
+                        flex items-center justify-center
+                        text-sm font-bold">1</div>
+                    <span class="text-sm font-medium">
+                        Choose Agent
+                    </span>
                 </div>
-                <div id="bookError" class="hidden bg-red-900/30 border border-red-700/50 
-                            text-red-400 rounded-lg px-4 py-3 mb-6 text-sm">
+                <div class="flex-1 h-px bg-gray-700"></div>
+                <div id="step2indicator" class="flex items-center gap-2">
+                    <div id="step2circle" class="w-8 h-8 bg-gray-700 rounded-full
+                        flex items-center justify-center
+                        text-sm font-bold text-gray-400">
+                        2
+                    </div>
+                    <span class="text-sm text-gray-400" id="step2text">
+                        Pick Slot
+                    </span>
+                </div>
+                <div class="flex-1 h-px bg-gray-700"></div>
+                <div id="step3indicator" class="flex items-center gap-2">
+                    <div id="step3circle" class="w-8 h-8 bg-gray-700 rounded-full
+                        flex items-center justify-center
+                        text-sm font-bold text-gray-400">
+                        3
+                    </div>
+                    <span class="text-sm text-gray-400" id="step3text">
+                        Confirm
+                    </span>
+                </div>
+            </div>
+
+            <!-- STEP 1 - Choose Agent -->
+            <div id="bookStep1">
+                <p class="text-gray-400 text-sm mb-4">
+                    Select an agent to book appointment with:
+                </p>
+                <div id="agentsList" class="grid md:grid-cols-2 gap-4">
+                    <div class="text-gray-500 text-sm">
+                        Loading agents...
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2 - Pick Time Slot -->
+            <div id="bookStep2" class="hidden">
+                <!-- Selected Agent Info -->
+                <div id="selectedAgentInfo" class="bg-purple-900/20 border border-purple-700/30
+                    rounded-xl p-4 mb-6 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-600 rounded-full
+                        flex items-center justify-center
+                        text-xl font-bold" id="selectedAgentInitial">
+                    </div>
+                    <div>
+                        <div class="font-semibold" id="selectedAgentName">
+                        </div>
+                        <div class="text-gray-400 text-sm">
+                            Selected Agent
+                        </div>
+                    </div>
+                    <button onclick="goBackToStep1()" class="ml-auto text-gray-400 hover:text-white
+                           text-sm transition">
+                        ← Change Agent
+                    </button>
                 </div>
 
-                <div class="bg-gray-900 border border-gray-800 
-                            rounded-2xl p-6 space-y-4">
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">
-                            Agent ID
-                        </label>
-                        <input id="agentId" type="number" placeholder="Enter agent ID" class="w-full bg-gray-800 border border-gray-700 
-                                      rounded-xl px-4 py-3 text-white 
-                                      placeholder-gray-500 focus:outline-none 
-                                      focus:border-purple-500 transition" />
+                <p class="text-gray-400 text-sm mb-4">
+                    Pick a date and available time slot:
+                </p>
+
+                <!-- Date Picker -->
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-400 mb-2">
+                        Select Date
+                    </label>
+                    <input id="bookDate" type="date" onchange="loadSlotsForDate()" class="w-full max-w-xs bg-gray-800 border
+                          border-gray-700 rounded-xl px-4 py-3
+                          text-white focus:outline-none
+                          focus:border-purple-500 transition" />
+                </div>
+
+                <!-- Available Slots -->
+                <div id="slotsContainer" class="mb-6">
+                    <p class="text-gray-500 text-sm">
+                        Select a date to see available slots
+                    </p>
+                </div>
+
+                <!-- Or Manual Time -->
+                <div class="bg-gray-900 border border-gray-800
+                    rounded-xl p-4 mb-6">
+                    <p class="text-sm text-gray-400 mb-3">
+                        Or select a time manually:
+                    </p>
+                    <select id="manualTimeSlot" class="w-full bg-gray-800 border border-gray-700
+                           rounded-xl px-4 py-3 text-white
+                           focus:outline-none focus:border-purple-500
+                           transition">
+                        <option value="">Select time...</option>
+                        <option>09:00 AM</option>
+                        <option>10:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>12:00 PM</option>
+                        <option>02:00 PM</option>
+                        <option>03:00 PM</option>
+                        <option>04:00 PM</option>
+                    </select>
+                </div>
+
+                <button onclick="goToStep3()" class="px-6 py-3 bg-purple-600 hover:bg-purple-700
+                       rounded-xl font-medium transition">
+                    Continue →
+                </button>
+            </div>
+
+            <!-- STEP 3 - Confirm -->
+            <div id="bookStep3" class="hidden max-w-lg">
+
+                <div id="bookSuccess" class="hidden bg-green-900/30 border border-green-700/50
+                    text-green-400 rounded-lg px-4 py-3 mb-6 text-sm">
+                </div>
+                <div id="bookError" class="hidden bg-red-900/30 border border-red-700/50
+                    text-red-400 rounded-lg px-4 py-3 mb-6 text-sm">
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="bg-gray-900 border border-gray-800
+                    rounded-2xl p-6 mb-6">
+                    <h3 class="font-semibold mb-4 text-purple-400">
+                        Booking Summary
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Agent</span>
+                            <span id="summaryAgent" class="font-medium"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Date</span>
+                            <span id="summaryDate" class="font-medium"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Time</span>
+                            <span id="summaryTime" class="font-medium"></span>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">
-                            Date
-                        </label>
-                        <input id="bookDate" type="date" class="w-full bg-gray-800 border border-gray-700 
-                                      rounded-xl px-4 py-3 text-white 
-                                      focus:outline-none focus:border-purple-500 
-                                      transition" />
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">
-                            Time Slot
-                        </label>
-                        <select id="timeSlot" class="w-full bg-gray-800 border border-gray-700 
-                                       rounded-xl px-4 py-3 text-white 
-                                       focus:outline-none focus:border-purple-500 
-                                       transition">
-                            <option>09:00 AM</option>
-                            <option>10:00 AM</option>
-                            <option>11:00 AM</option>
-                            <option>12:00 PM</option>
-                            <option>02:00 PM</option>
-                            <option>03:00 PM</option>
-                            <option>04:00 PM</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm text-gray-400 mb-2">
-                            Reason
-                        </label>
-                        <textarea id="reason" rows="3" placeholder="Reason for appointment..." class="w-full bg-gray-800 border border-gray-700 
-                                         rounded-xl px-4 py-3 text-white 
-                                         placeholder-gray-500 focus:outline-none 
-                                         focus:border-purple-500 transition">
-                        </textarea>
-                    </div>
-                    <button onclick="bookAppointment()" class="w-full bg-purple-600 hover:bg-purple-700 
-                                   rounded-xl py-3 font-semibold transition">
-                        Book Appointment
+                </div>
+
+                <!-- Reason -->
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-400 mb-2">
+                        Reason for Appointment
+                    </label>
+                    <textarea id="reason" rows="3" placeholder="e.g. I want to know more about
+                                   health insurance plans..." class="w-full bg-gray-800 border border-gray-700
+                             rounded-xl px-4 py-3 text-white
+                             placeholder-gray-500 focus:outline-none
+                             focus:border-purple-500 transition text-sm">
+            </textarea>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="goBackToStep2()" class="px-6 py-3 bg-gray-800 hover:bg-gray-700
+                           rounded-xl font-medium transition">
+                        ← Back
+                    </button>
+                    <button onclick="confirmBooking()" class="flex-1 px-6 py-3 bg-purple-600
+                           hover:bg-purple-700 rounded-xl
+                           font-medium transition">
+                        Confirm Booking ✓
                     </button>
                 </div>
             </div>
-        </div>
 
+        </div>
         <!-- Voice AI Tab -->
         <div id="tab-content-voice" class="hidden">
             <div class="max-w-2xl mx-auto text-center">
@@ -238,6 +351,7 @@
 
             if (tab === 'plans') loadPlans();
             if (tab === 'appointments') loadAppointments();
+            if (tab === 'book') loadAgents();
         }
 
         // Load Plans
@@ -384,6 +498,302 @@
             });
             loadAppointments();
         }
+        // Booking state
+        let selectedAgent = null;
+        let selectedSlot = null;
+        let selectedDate = null;
+
+        // Load agents list
+        async function loadAgents() {
+            try {
+                const res = await fetch(
+                    'http://localhost:8081/api/public/agents'
+                );
+                const agents = await res.json();
+                const container = document.getElementById('agentsList');
+
+                if (agents.length === 0) {
+                    container.innerHTML =
+                        '<p class="text-gray-500">No agents available</p>';
+                    return;
+                }
+
+                container.innerHTML = agents.map(agent => `
+            <div onclick="selectAgent(${agent.id}, '${agent.name}')"
+                 class="bg-gray-900 border border-gray-800
+                        rounded-xl p-5 cursor-pointer
+                        hover:border-purple-600 transition
+                        group">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-600
+                                rounded-full flex items-center
+                                justify-center text-xl font-bold
+                                flex-shrink-0">
+                        ${agent.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-semibold group-hover:text-purple-400
+                                    transition">
+                            ${agent.name}
+                        </div>
+                        <div class="text-gray-400 text-sm mt-1">
+                            ${agent.email}
+                        </div>
+                        <div class="text-gray-500 text-xs mt-1">
+                            📍 ${agent.address || 'Pune'}
+                        </div>
+                    </div>
+                    <div class="text-purple-400 opacity-0
+                                group-hover:opacity-100 transition">
+                        →
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+            } catch (err) {
+                document.getElementById('agentsList').innerHTML =
+                    '<p class="text-red-400">Failed to load agents</p>';
+            }
+        }
+
+        // Select an agent - go to step 2
+        function selectAgent(agentId, agentName) {
+            selectedAgent = { id: agentId, name: agentName };
+
+            // Update step 2 UI
+            document.getElementById('selectedAgentName').textContent =
+                agentName;
+            document.getElementById('selectedAgentInitial').textContent =
+                agentName.charAt(0).toUpperCase();
+
+            // Show step 2
+            document.getElementById('bookStep1').classList.add('hidden');
+            document.getElementById('bookStep2').classList.remove('hidden');
+
+            // Update step indicators
+            document.getElementById('step2circle').className =
+                'w-8 h-8 bg-purple-600 rounded-full flex items-center ' +
+                'justify-center text-sm font-bold';
+            document.getElementById('step2text').className =
+                'text-sm font-medium';
+
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookDate').min = today;
+        }
+
+        // Go back to step 1
+        function goBackToStep1() {
+            selectedAgent = null;
+            document.getElementById('bookStep2').classList.add('hidden');
+            document.getElementById('bookStep1').classList.remove('hidden');
+
+            // Reset step indicators
+            document.getElementById('step2circle').className =
+                'w-8 h-8 bg-gray-700 rounded-full flex items-center ' +
+                'justify-center text-sm font-bold text-gray-400';
+            document.getElementById('step2text').className =
+                'text-sm text-gray-400';
+        }
+
+        // Load available slots for selected date
+        async function loadSlotsForDate() {
+            const date = document.getElementById('bookDate').value;
+            if (!date || !selectedAgent) return;
+
+            selectedDate = date;
+            const container = document.getElementById('slotsContainer');
+            container.innerHTML =
+                '<p class="text-gray-500 text-sm">Loading slots...</p>';
+
+            try {
+                const res = await fetch(
+                    `http://localhost:8081/api/public/availability/` +
+                    `${selectedAgent.id}`
+                );
+                const slots = await res.json();
+
+                // Filter slots for selected date
+                const dateSlots = slots.filter(s => s.date === date
+                    && s.available);
+
+                if (dateSlots.length === 0) {
+                    container.innerHTML = `
+                <p class="text-gray-500 text-sm">
+                    No available slots for this date.
+                    You can still select a time manually below.
+                </p>`;
+                    return;
+                }
+
+                container.innerHTML = `
+            <p class="text-gray-400 text-sm mb-3">
+                Available slots:
+            </p>
+            <div class="flex flex-wrap gap-3">
+                ${dateSlots.map(slot => `
+                    <button onclick="selectSlot('${slot.timeSlot}')"
+                            id="slot-${slot.timeSlot.replace(' ', '-')}"
+                            class="px-4 py-2 bg-gray-800 border
+                                   border-gray-700 rounded-xl text-sm
+                                   hover:border-purple-500
+                                   hover:text-purple-400 transition">
+                        ${slot.timeSlot}
+                    </button>
+                `).join('')}
+            </div>
+        `;
+
+            } catch (err) {
+                container.innerHTML =
+                    '<p class="text-gray-500 text-sm">Could not load slots</p>';
+            }
+        }
+
+        // Select a time slot
+        function selectSlot(timeSlot) {
+            selectedSlot = timeSlot;
+
+            // Highlight selected slot
+            document.querySelectorAll('[id^="slot-"]').forEach(btn => {
+                btn.className = 'px-4 py-2 bg-gray-800 border ' +
+                    'border-gray-700 rounded-xl text-sm ' +
+                    'hover:border-purple-500 transition';
+            });
+
+            const slotId = 'slot-' + timeSlot.replace(' ', '-');
+            const btn = document.getElementById(slotId);
+            if (btn) {
+                btn.className = 'px-4 py-2 bg-purple-600 border ' +
+                    'border-purple-500 rounded-xl text-sm text-white';
+            }
+
+            // Also set manual dropdown
+            document.getElementById('manualTimeSlot').value = timeSlot;
+        }
+
+        // Go to step 3 confirmation
+        function goToStep3() {
+            const date = document.getElementById('bookDate').value;
+            const manualTime =
+                document.getElementById('manualTimeSlot').value;
+
+            // Use selected slot or manual time
+            const finalTime = selectedSlot || manualTime;
+
+            if (!date) {
+                alert('Please select a date!');
+                return;
+            }
+            if (!finalTime) {
+                alert('Please select a time slot!');
+                return;
+            }
+
+            selectedDate = date;
+            selectedSlot = finalTime;
+
+            // Update summary
+            document.getElementById('summaryAgent').textContent =
+                selectedAgent.name;
+            document.getElementById('summaryDate').textContent = date;
+            document.getElementById('summaryTime').textContent = finalTime;
+
+            // Show step 3
+            document.getElementById('bookStep2').classList.add('hidden');
+            document.getElementById('bookStep3').classList.remove('hidden');
+
+            // Update step indicators
+            document.getElementById('step3circle').className =
+                'w-8 h-8 bg-purple-600 rounded-full flex items-center ' +
+                'justify-center text-sm font-bold';
+            document.getElementById('step3text').className =
+                'text-sm font-medium';
+        }
+
+        // Go back to step 2
+        function goBackToStep2() {
+            document.getElementById('bookStep3').classList.add('hidden');
+            document.getElementById('bookStep2').classList.remove('hidden');
+
+            document.getElementById('step3circle').className =
+                'w-8 h-8 bg-gray-700 rounded-full flex items-center ' +
+                'justify-center text-sm font-bold text-gray-400';
+            document.getElementById('step3text').className =
+                'text-sm text-gray-400';
+        }
+
+        // Confirm and submit booking
+        async function confirmBooking() {
+            const reason = document.getElementById('reason').value;
+            const successMsg = document.getElementById('bookSuccess');
+            const errorMsg = document.getElementById('bookError');
+
+            if (!reason) {
+                alert('Please enter reason for appointment!');
+                return;
+            }
+
+            try {
+                const res = await fetch(
+                    `${API}/api/customer/appointments/book`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        customerId: userId,
+                        agentId: selectedAgent.id,
+                        date: selectedDate,
+                        timeSlot: selectedSlot,
+                        reason: reason
+                    })
+                });
+
+                if (res.ok) {
+                    successMsg.classList.remove('hidden');
+                    successMsg.textContent =
+                        '🎉 Appointment booked successfully!';
+                    errorMsg.classList.add('hidden');
+
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        successMsg.classList.add('hidden');
+                        selectedAgent = null;
+                        selectedSlot = null;
+                        selectedDate = null;
+                        document.getElementById('bookStep3')
+                            .classList.add('hidden');
+                        document.getElementById('bookStep1')
+                            .classList.remove('hidden');
+
+                        // Reset all step indicators
+                        ['2', '3'].forEach(n => {
+                            document.getElementById(`step${n}circle`)
+                                .className = 'w-8 h-8 bg-gray-700 ' +
+                                'rounded-full flex items-center ' +
+                                'justify-center text-sm font-bold text-gray-400';
+                            document.getElementById(`step${n}text`)
+                                .className = 'text-sm text-gray-400';
+                        });
+
+                        loadAgents();
+                    }, 3000);
+
+                } else {
+                    const err = await res.text();
+                    errorMsg.classList.remove('hidden');
+                    errorMsg.textContent = err ||
+                        'Failed to book. Slot may already be taken!';
+                    successMsg.classList.add('hidden');
+                }
+            } catch (err) {
+                errorMsg.classList.remove('hidden');
+                errorMsg.textContent = 'Server error. Please try again!';
+            }
+        }
 
         // Voice AI
         let recognition;
@@ -445,34 +855,28 @@
 
         async function getAIResponse(query) {
             try {
+                document.getElementById('voiceStatus').textContent =
+                    'Getting AI response...';
+
                 const res = await fetch(
-                    'https://api.anthropic.com/v1/messages', {
+                    'http://localhost:8081/api/customer/voice/query', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-key': 'YOUR_CLAUDE_API_KEY',
-                        'anthropic-version': '2023-06-01'
+                        'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        model: 'claude-sonnet-4-6',
-                        max_tokens: 300,
-                        messages: [{
-                            role: 'user',
-                            content: `You are an insurance assistant. 
-                                     Answer this query briefly: ${query}`
-                        }]
-                    })
+                    body: JSON.stringify({ query: query })
                 });
 
                 const data = await res.json();
-                const answer = data.content[0].text;
 
                 document.getElementById('aiResponse')
                     .classList.remove('hidden');
                 document.getElementById('aiResponseText')
-                    .textContent = answer;
+                    .textContent = data.response;
                 document.getElementById('voiceStatus').textContent =
                     'Done! Click mic to ask another question.';
+
             } catch (err) {
                 document.getElementById('voiceStatus').textContent =
                     'AI response failed. Try again!';

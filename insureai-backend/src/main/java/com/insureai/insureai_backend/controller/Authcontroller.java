@@ -25,4 +25,9 @@ public class Authcontroller {
     public ResponseEntity<Authresponse> login(@RequestBody Loginrequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
+    @GetMapping("/api/public/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Public API working!");
+    }
 }

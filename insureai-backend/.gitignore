@@ -3,10 +3,11 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-# Sensitive files
-application-local.properties
-application.properties
+# Environment variables
 .env
+
+# Sensitive configs
+application-local.properties
 
 # Already there but verify
 target/
