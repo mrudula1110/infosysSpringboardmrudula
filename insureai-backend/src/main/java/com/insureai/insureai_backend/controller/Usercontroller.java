@@ -35,8 +35,16 @@ public class Usercontroller { // ← NO @RequestMapping at class level
     public ResponseEntity<List<User>> getPublicAgents() {
         List<User> agents = userService.getAllUsers()
                 .stream()
-                .filter(u -> u.getRole().equals("AGENT"))
+                .filter(u -> u.getRole().equals("AGENT")
+                        && u.getStatus().equals("APPROVED")
+                        && u.isVerified()) // ← only verified
                 .collect(Collectors.toList());
         return ResponseEntity.ok(agents);
+    }
+
+    @GetMapping("/api/admin/agents/pending")
+    public ResponseEntity<List<User>> getPendingAgents() {
+        return ResponseEntity.ok(
+                userService.getPendingAgents());
     }
 }

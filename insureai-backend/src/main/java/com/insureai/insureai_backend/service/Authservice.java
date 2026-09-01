@@ -39,20 +39,58 @@ public class Authservice {
         user.setAddress(request.getAddress());
         user.setDob(request.getDob());
         user.setVerified(false);
+        if (request.getRole().equals("AGENT")) {
+            // Agent needs admin approval
+            user.setVerified(false);
+            user.setStatus("PENDING");
+        } else {
+            // Customer and Admin auto approved
+            user.setVerified(true);
+            user.setStatus("APPROVED");
+        }
 
         userRepository.save(user);
-        return "User registered successfully!";
+        if (request.getRole().equals("AGENT")) {
+            return "Registration successful! " +
+                    "Please wait for admin approval " +
+                    "before you can start receiving appointments.";
+        }
+        return "Registration successful! You can now login.";
     }
 
     public Authresponse login(Loginrequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository
+                .findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword())) {
             throw new RuntimeException("Invalid password!");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return new Authresponse(token, user.getRole(), user.getName());
+        // Only check status for AGENT role
+        if ("AGENT".equals(user.getRole())) {
+            String status = user.getStatus();
+
+            if (status == null ||
+                    "PENDING".equals(status)) {
+                throw new RuntimeException(
+                        "PENDING: Your account is awaiting " +
+                                "admin approval!");
+            }
+
+            if ("REJECTED".equals(status)) {
+                throw new RuntimeException(
+                        "REJECTED: Your account was rejected. " +
+                                "Contact support!");
+            }
+        }
+
+        String token = jwtUtil.generateToken(
+                user.getEmail(), user.getRole());
+
+        return new Authresponse(
+                token, user.getRole(), user.getName());
     }
 }

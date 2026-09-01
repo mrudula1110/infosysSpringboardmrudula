@@ -18,4 +18,5 @@ public class User {
     private String address;
     private String dob;
     private boolean isVerified;
+    private String status;
 }
