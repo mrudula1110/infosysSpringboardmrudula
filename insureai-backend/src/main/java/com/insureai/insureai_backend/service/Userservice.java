@@ -27,33 +27,34 @@ public class Userservice {
         return "User deleted successfully!";
     }
 
+    // Approve agent
     public String approveAgent(Long id) {
         User user = getUserById(id);
-        if (!user.getRole().equals("AGENT")) {
-            throw new RuntimeException("User is not an agent!");
+        if (!"AGENT".equalsIgnoreCase(user.getRole())) {
+            throw new RuntimeException("User is not an agent! Role found: " + user.getRole());
         }
         user.setStatus("APPROVED");
-        user.setVerified(true); // ← mark as verified
+        user.setVerified(true);
         userRepository.save(user);
-        return "Agent approved successfully!";
+        return user.getName() + " has been approved!";
     }
 
+    // Reject agent - DELETE from database
     public String rejectAgent(Long id) {
         User user = getUserById(id);
-        if (!user.getRole().equals("AGENT")) {
-            throw new RuntimeException("User is not an agent!");
+        if (!"AGENT".equalsIgnoreCase(user.getRole())) {
+            throw new RuntimeException("User is not an agent! Role found: " + user.getRole());
         }
-        user.setStatus("REJECTED");
-        user.setVerified(false); // ← stays unverified
-        userRepository.save(user);
-        return "Agent rejected!";
+        String name = user.getName();
+        userRepository.deleteById(id); // ← DELETE completely
+        return name + " has been rejected and removed!";
     }
 
     public List<User> getPendingAgents() {
         return userRepository.findAll()
                 .stream()
-                .filter(u -> u.getRole().equals("AGENT")
-                        && "PENDING".equals(u.getStatus()))
+                .filter(u -> "AGENT".equalsIgnoreCase(u.getRole())
+                        && "PENDING".equalsIgnoreCase(u.getStatus()))
                 .collect(Collectors.toList());
     }
 }

@@ -47,4 +47,17 @@ public class Usercontroller { // ← NO @RequestMapping at class level
         return ResponseEntity.ok(
                 userService.getPendingAgents());
     }
+
+    @PutMapping("/api/admin/agents/{id}/approve")
+    public ResponseEntity<String> approveAgent(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(userService.approveAgent(id));
+    }
+
+    @PutMapping("/api/admin/agents/{id}/reject")
+    public ResponseEntity<String> rejectAgent(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(
+                userService.rejectAgent(id));
+    }
 }
